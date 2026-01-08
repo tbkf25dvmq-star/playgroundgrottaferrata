@@ -131,6 +131,39 @@ export const menuData: MenuCategory[] = [
     ],
   },
   {
+    id: 'panini',
+    name: 'Panini',
+    icon: '🍔',
+    items: [
+      {
+        id: 'classic-burger',
+        name: 'Classic Burger',
+        description: 'Burger di manzo, insalata, pomodoro, cipolla, salsa burger',
+        price: 10.00,
+      },
+      {
+        id: 'smash-burger',
+        name: 'Smash Burger',
+        description: 'Doppio smash patty, cheddar, bacon croccante, salsa speciale',
+        price: 12.00,
+        tag: '🔥 Best Seller'
+      },
+      {
+        id: 'chicken-burger',
+        name: 'Chicken Burger',
+        description: 'Pollo croccante, insalata, pomodoro, maionese',
+        price: 10.00,
+      },
+      {
+        id: 'veggie-burger',
+        name: 'Veggie Burger',
+        description: 'Burger vegetale, avocado, pomodoro, rucola, salsa yogurt',
+        price: 11.00,
+        tag: '🌱 Vegetariano'
+      },
+    ],
+  },
+  {
     id: 'bevande',
     name: 'Bevande',
     icon: '🥤',
