@@ -16,8 +16,8 @@ const MenuHeader = () => {
       
       {/* Content */}
       <div className="relative z-10 text-center px-4 pb-8 -mt-8">
-        <h1 className="font-display text-5xl md:text-6xl text-primary tracking-wider">
-          PLAYGROUND
+        <h1 className="font-display text-4xl md:text-5xl text-primary tracking-wider">
+          PLAYGROUND <span className="text-3xl md:text-4xl">GROTTAFERRATA</span>
         </h1>
         <p className="text-muted-foreground mt-1 text-sm uppercase tracking-widest">
           Pizza • Cocktails • Good Vibes
