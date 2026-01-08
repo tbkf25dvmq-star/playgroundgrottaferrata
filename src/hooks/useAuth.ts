@@ -19,26 +19,59 @@ export const useAuth = () => {
     role: null,
   });
 
+  const fetchUserRole = async (userId: string) => {
+    const { data: roleData } = await supabase
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', userId)
+      .maybeSingle();
+    return roleData?.role as AppRole | null;
+  };
+
   useEffect(() => {
-    // Set up auth state listener first
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        const user = session?.user ?? null;
-        
-        if (user) {
-          // Fetch user role
-          const { data: roleData } = await supabase
-            .from('user_roles')
-            .select('role')
-            .eq('user_id', user.id)
-            .maybeSingle();
-          
+    let isMounted = true;
+
+    // Get initial session first
+    const initializeAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!isMounted) return;
+
+      if (session?.user) {
+        const role = await fetchUserRole(session.user.id);
+        if (isMounted) {
           setAuthState({
-            user,
+            user: session.user,
             session,
             isLoading: false,
-            role: roleData?.role as AppRole | null,
+            role,
           });
+        }
+      } else {
+        setAuthState(prev => ({ ...prev, isLoading: false }));
+      }
+    };
+
+    initializeAuth();
+
+    // Then set up listener for changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (!isMounted) return;
+
+        if (session?.user) {
+          // Use setTimeout to avoid blocking the auth state change
+          setTimeout(async () => {
+            const role = await fetchUserRole(session.user.id);
+            if (isMounted) {
+              setAuthState({
+                user: session.user,
+                session,
+                isLoading: false,
+                role,
+              });
+            }
+          }, 0);
         } else {
           setAuthState({
             user: null,
@@ -50,29 +83,10 @@ export const useAuth = () => {
       }
     );
 
-    // Then get initial session
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      const user = session?.user ?? null;
-      
-      if (user) {
-        const { data: roleData } = await supabase
-          .from('user_roles')
-          .select('role')
-          .eq('user_id', user.id)
-          .maybeSingle();
-        
-        setAuthState({
-          user,
-          session,
-          isLoading: false,
-          role: roleData?.role as AppRole | null,
-        });
-      } else {
-        setAuthState(prev => ({ ...prev, isLoading: false }));
-      }
-    });
-
-    return () => subscription.unsubscribe();
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const signIn = async (email: string, password: string) => {
