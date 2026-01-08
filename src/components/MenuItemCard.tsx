@@ -1,4 +1,10 @@
-import { MenuItem } from '@/data/menuData';
+interface MenuItem {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  tag?: string;
+}
 
 interface MenuItemCardProps {
   item: MenuItem;

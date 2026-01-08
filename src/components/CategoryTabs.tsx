@@ -1,4 +1,9 @@
-import { MenuCategory } from '@/data/menuData';
+interface MenuCategory {
+  id: string;
+  name: string;
+  icon: string;
+  items: unknown[];
+}
 
 interface CategoryTabsProps {
   categories: MenuCategory[];

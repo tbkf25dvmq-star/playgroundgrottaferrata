@@ -1,5 +1,19 @@
-import { MenuCategory } from '@/data/menuData';
 import MenuItemCard from './MenuItemCard';
+
+interface MenuItem {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  tag?: string;
+}
+
+interface MenuCategory {
+  id: string;
+  name: string;
+  icon: string;
+  items: MenuItem[];
+}
 
 interface MenuSectionProps {
   category: MenuCategory;
