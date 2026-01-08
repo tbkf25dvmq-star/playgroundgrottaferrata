@@ -1,4 +1,5 @@
 import { Wifi } from 'lucide-react';
+import logoPlayground from '@/assets/logo-playground.jpeg';
 
 const MenuHeader = () => {
   return (
@@ -8,16 +9,14 @@ const MenuHeader = () => {
       
       {/* Content */}
       <div className="relative z-10 text-center">
-        {/* Logo/Name */}
-        <div className="mb-2">
-          <span className="text-5xl">🏀</span>
+        {/* Logo */}
+        <div className="mb-4">
+          <img 
+            src={logoPlayground} 
+            alt="Playground Grottaferrata" 
+            className="w-40 h-40 mx-auto rounded-full object-cover shadow-lg border-2 border-primary/30"
+          />
         </div>
-        <h1 className="font-display text-5xl md:text-6xl text-primary tracking-wider">
-          PLAYGROUND
-        </h1>
-        <p className="text-muted-foreground mt-1 text-sm uppercase tracking-widest">
-          Pizza • Cocktails • Good Vibes
-        </p>
         
         {/* WiFi info */}
         <div className="mt-4 inline-flex items-center gap-2 bg-secondary/50 rounded-full px-4 py-2 text-xs text-muted-foreground">
