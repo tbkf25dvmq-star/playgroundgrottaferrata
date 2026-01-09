@@ -53,6 +53,7 @@ const MenuSection = ({ category }: MenuSectionProps) => {
             </span>
           </div>
         )}
+      </div>
       
       {/* Banner pollo fritto per Smash */}
       {isSmashCategory && (
