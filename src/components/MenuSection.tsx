@@ -36,11 +36,16 @@ const MenuSection = ({ category }: MenuSectionProps) => {
 
   return (
     <section className="py-6 px-4">
-      <div className="flex items-center gap-3 mb-4">
-        <span className="text-3xl">{category.icon}</span>
-        <h2 className="font-display text-3xl text-foreground tracking-wide">
-          {category.name.toUpperCase()}
-        </h2>
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-3">
+          <span className="text-3xl">{category.icon}</span>
+          <h2 className="font-display text-3xl text-foreground tracking-wide">
+            {category.name.toUpperCase()}
+          </h2>
+        </div>
+        <span className="text-xs text-primary font-medium tracking-wide uppercase">
+          Coperto €2
+        </span>
       </div>
       
       {/* Banner pollo fritto per Smash */}

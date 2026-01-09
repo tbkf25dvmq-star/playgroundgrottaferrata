@@ -28,12 +28,6 @@ const MenuHeader = () => {
           <Wifi className="w-4 h-4" />
           <span>WiFi: <span className="text-foreground font-medium">Playground2024</span></span>
         </div>
-        
-        {/* Cover charge & allergens */}
-        <div className="mt-3 text-xs text-muted-foreground space-y-1">
-          <p className="font-medium text-foreground">Coperto: €2,00 a persona</p>
-          <p>Per info su allergeni, chiedi al nostro staff 🏀</p>
-        </div>
       </div>
     </header>
   );

@@ -3,6 +3,7 @@ import { useFullMenu } from '@/hooks/useMenu';
 import MenuHeader from '@/components/MenuHeader';
 import CategoryTabs from '@/components/CategoryTabs';
 import MenuSection from '@/components/MenuSection';
+import AllergensBox from '@/components/AllergensBox';
 import MenuFooter from '@/components/MenuFooter';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -108,6 +109,7 @@ const Index = () => {
         ))}
       </main>
       
+      <AllergensBox />
       <MenuFooter />
     </div>
   );
