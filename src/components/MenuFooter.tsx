@@ -27,8 +27,15 @@ const MenuFooter = () => {
           <span className="text-sm font-medium">@playground_pizza</span>
         </a>
         
+        {/* Cover charge */}
+        <div className="mt-6 pt-4 border-t border-border">
+          <p className="text-sm font-medium text-foreground">
+            Coperto: €2,00 a persona
+          </p>
+        </div>
+        
         {/* Allergens notice */}
-        <p className="text-xs text-muted-foreground mt-6 max-w-xs mx-auto">
+        <p className="text-xs text-muted-foreground mt-4 max-w-xs mx-auto">
           Per informazioni su allergeni e intolleranze, chiedi al nostro staff 🏀
         </p>
       </div>
