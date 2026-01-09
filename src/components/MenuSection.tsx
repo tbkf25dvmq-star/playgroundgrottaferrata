@@ -43,9 +43,12 @@ const MenuSection = ({ category }: MenuSectionProps) => {
             {category.name.toUpperCase()}
           </h2>
         </div>
-        <span className="text-xs text-primary font-medium tracking-wide uppercase">
-          Coperto €2
-        </span>
+        <div className="flex items-center gap-1.5 border border-primary bg-primary/10 rounded px-2 py-1">
+          <span className="text-sm">🏀</span>
+          <span className="text-xs font-display text-primary tracking-wide">
+            COPERTO €2
+          </span>
+        </div>
       </div>
       
       {/* Banner pollo fritto per Smash */}
