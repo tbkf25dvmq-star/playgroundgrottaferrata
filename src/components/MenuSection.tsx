@@ -31,8 +31,8 @@ const burgerExtras = [
 ];
 
 const MenuSection = ({ category }: MenuSectionProps) => {
-  const isBurgerCategory = category.name.toLowerCase().includes('burger');
   const isSmashCategory = category.name.toLowerCase().includes('smash');
+  const isBurgerCategory = category.name.toLowerCase().includes('burger') && !isSmashCategory;
 
   return (
     <section className="py-6 px-4">
