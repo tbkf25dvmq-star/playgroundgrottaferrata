@@ -1,4 +1,4 @@
-import { Instagram, MapPin, Clock } from 'lucide-react';
+import { Instagram, MapPin, Clock, Phone } from 'lucide-react';
 
 const MenuFooter = () => {
   return (
@@ -7,37 +7,34 @@ const MenuFooter = () => {
         {/* Hours */}
         <div className="flex items-center justify-center gap-2 text-muted-foreground">
           <Clock className="w-4 h-4" />
-          <span className="text-sm">Mar-Dom: 18:00 - 01:00</span>
+          <span className="text-sm">Mar-Dom: 17:00 - 01:00</span>
         </div>
         
         {/* Location */}
         <div className="flex items-center justify-center gap-2 text-muted-foreground">
           <MapPin className="w-4 h-4" />
-          <span className="text-sm">Via del Campo, 42 - Milano</span>
+          <span className="text-sm">Viale I Maggio, 9 - Grottaferrata (RM)</span>
         </div>
+        
+        {/* Phone */}
+        <a 
+          href="tel:069456462"
+          className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+        >
+          <Phone className="w-4 h-4" />
+          <span className="text-sm">06 945 6462</span>
+        </a>
         
         {/* Social */}
         <a 
-          href="https://instagram.com" 
+          href="https://instagram.com/playground_grottaferrata" 
           target="_blank" 
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
         >
           <Instagram className="w-5 h-5" />
-          <span className="text-sm font-medium">@playground_pizza</span>
+          <span className="text-sm font-medium">@playground_grottaferrata</span>
         </a>
-        
-        {/* Cover charge */}
-        <div className="mt-6 pt-4 border-t border-border">
-          <p className="text-sm font-medium text-foreground">
-            Coperto: €2,00 a persona
-          </p>
-        </div>
-        
-        {/* Allergens notice */}
-        <p className="text-xs text-muted-foreground mt-4 max-w-xs mx-auto">
-          Per informazioni su allergeni e intolleranze, chiedi al nostro staff 🏀
-        </p>
       </div>
     </footer>
   );
