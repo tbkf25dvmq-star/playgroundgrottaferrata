@@ -33,6 +33,8 @@ const burgerExtras = [
 const MenuSection = ({ category }: MenuSectionProps) => {
   const isSmashCategory = category.name.toLowerCase().includes('smash');
   const isBurgerCategory = category.name.toLowerCase().includes('burger') && !isSmashCategory;
+  const isDrinkCategory = category.name.toLowerCase().includes('drink') || category.name.toLowerCase().includes('wine') || category.name.toLowerCase().includes('vini');
+  const showCoperto = !isDrinkCategory;
 
   return (
     <section className="py-6 px-4">
@@ -43,13 +45,14 @@ const MenuSection = ({ category }: MenuSectionProps) => {
             {category.name.toUpperCase()}
           </h2>
         </div>
-        <div className="flex items-center gap-1.5 border border-primary bg-primary/10 rounded px-2 py-1">
-          <span className="text-sm">🏀</span>
-          <span className="text-xs font-display text-primary tracking-wide">
-            COPERTO €2
-          </span>
-        </div>
-      </div>
+        {showCoperto && (
+          <div className="flex items-center gap-1.5 border border-primary bg-primary/10 rounded px-2 py-1">
+            <span className="text-sm">🏀</span>
+            <span className="text-xs font-display text-primary tracking-wide">
+              COPERTO €2
+            </span>
+          </div>
+        )}
       
       {/* Banner pollo fritto per Smash */}
       {isSmashCategory && (
