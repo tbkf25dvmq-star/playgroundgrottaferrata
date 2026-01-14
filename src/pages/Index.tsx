@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useFullMenu } from '@/hooks/useMenu';
 import MenuHeader from '@/components/MenuHeader';
 import CategoryTabs from '@/components/CategoryTabs';
@@ -6,8 +7,12 @@ import MenuSection from '@/components/MenuSection';
 import AllergensBox from '@/components/AllergensBox';
 import MenuFooter from '@/components/MenuFooter';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Wine, Beer } from 'lucide-react';
+
+const DRINK_CATEGORIES = ['Analcolici', 'Aperitivo Italiano', 'Contemporary', 'Tropical', 'Birre Artigianali'];
 
 const Index = () => {
+  const navigate = useNavigate();
   const { menu, isLoading, error } = useFullMenu(false);
   const [activeCategory, setActiveCategory] = useState<string>('');
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
@@ -74,8 +79,11 @@ const Index = () => {
     );
   }
 
+  // Filter out drink categories from main menu (they go to /drinks page)
+  const foodCategories = menu.filter(cat => !DRINK_CATEGORIES.includes(cat.name));
+
   // Convert menu data to format expected by CategoryTabs
-  const categories = menu.map(cat => ({
+  const categories = foodCategories.map(cat => ({
     id: cat.id,
     name: cat.name,
     icon: cat.icon,
@@ -91,6 +99,26 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <MenuHeader />
+      
+      {/* Drinks Banner */}
+      <div 
+        onClick={() => navigate('/drinks')}
+        className="mx-4 mt-4 p-4 bg-gradient-to-r from-amber-900 to-orange-800 rounded-xl cursor-pointer hover:scale-[1.02] transition-transform shadow-lg"
+      >
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex gap-2">
+              <Wine className="h-6 w-6 text-amber-200" />
+              <Beer className="h-6 w-6 text-amber-200" />
+            </div>
+            <div>
+              <h3 className="text-white font-bold text-lg">🍹 Drinks Menu</h3>
+              <p className="text-amber-100 text-sm">Cocktail, Birre Artigianali e Analcolici</p>
+            </div>
+          </div>
+          <span className="text-white text-2xl">→</span>
+        </div>
+      </div>
       
       <CategoryTabs
         categories={categories}
