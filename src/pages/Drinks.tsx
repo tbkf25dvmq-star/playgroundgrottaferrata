@@ -11,6 +11,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { getCocktailImage } from '@/data/cocktailImages';
+import { getBeerImage } from '@/data/beerImages';
 
 const DRINK_CATEGORIES = ['Analcolici', 'Aperitivo Italiano', 'Contemporary', 'Tropical', 'Birre Artigianali'];
 
@@ -122,16 +123,16 @@ interface DrinkCardProps {
 const DrinkCard = ({ item }: DrinkCardProps) => {
   const [imageError, setImageError] = useState(false);
   
-  // Try to get cocktail image from mapping, fall back to database image_url
-  const cocktailImage = getCocktailImage(item.name) || item.image_url;
+  // Try to get cocktail or beer image from mapping, fall back to database image_url
+  const drinkImage = getCocktailImage(item.name) || getBeerImage(item.name) || item.image_url;
   
   return (
     <div className="bg-white/5 rounded-lg overflow-hidden border border-white/10 hover:border-white/30 transition-colors">
       {/* Image */}
       <div className="aspect-square bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center overflow-hidden">
-        {cocktailImage && !imageError ? (
-          <img 
-            src={cocktailImage} 
+        {drinkImage && !imageError ? (
+          <img
+            src={drinkImage} 
             alt={item.name}
             className="w-full h-full object-cover"
             onError={() => setImageError(true)}
