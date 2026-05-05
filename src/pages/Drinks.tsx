@@ -91,7 +91,11 @@ const Drinks = () => {
                     <h2 className="text-lg font-semibold">{category.name}</h2>
                     <p className="text-sm text-white/60">
                       {category.items.length} {category.items.length === 1 ? 'drink' : 'drinks'}
-                      {category.items[0]?.price > 0 && ` • €${category.items[0].price.toFixed(2)}`}
+                      {(() => {
+                        const prices = category.items.map(i => i.price).filter(p => p > 0);
+                        const allSame = prices.length > 0 && prices.every(p => p === prices[0]);
+                        return allSame ? ` • €${prices[0].toFixed(2)}` : '';
+                      })()}
                     </p>
                   </div>
                 </div>
