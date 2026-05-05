@@ -34,6 +34,7 @@ const MenuSection = ({ category }: MenuSectionProps) => {
   const isSmashCategory = category.name.toLowerCase().includes('smash');
   const isBurgerCategory = category.name.toLowerCase().includes('burger') && !isSmashCategory;
   const isDrinkCategory = category.name.toLowerCase().includes('drink') || category.name.toLowerCase().includes('wine') || category.name.toLowerCase().includes('vini');
+  const isLunchCategory = category.name.toLowerCase().includes('lunch');
   const showCoperto = !isDrinkCategory;
 
   return (
@@ -55,6 +56,15 @@ const MenuSection = ({ category }: MenuSectionProps) => {
         )}
       </div>
       
+      {/* Banner Play Lunch */}
+      {isLunchCategory && (
+        <div className="mb-4 p-3 bg-primary/10 border border-primary/30 rounded-lg">
+          <p className="text-sm text-center text-foreground font-medium">
+            🌞 Disponibile a <span className="text-primary font-bold">pranzo</span>. Su richiesta anche a <span className="text-primary font-bold">cena</span>.
+          </p>
+        </div>
+      )}
+
       {/* Banner pollo fritto per Smash */}
       {isSmashCategory && (
         <div className="mb-4 p-3 bg-primary/10 border border-primary/30 rounded-lg">
