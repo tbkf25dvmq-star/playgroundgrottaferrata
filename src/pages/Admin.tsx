@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useFullMenu, useUpdateMenuItem, useUpdateMenuCategory } from '@/hooks/useMenu';
@@ -8,10 +8,26 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
-import { LogOut, Eye, EyeOff, Pencil, ArrowUp, ArrowDown } from 'lucide-react';
+import { LogOut, EyeOff } from 'lucide-react';
 import AdminItemEditor from '@/components/AdminItemEditor';
-import { useState } from 'react';
+import SortableMenuItem from '@/components/SortableMenuItem';
 import type { MenuItem } from '@/hooks/useMenu';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+  arrayMove,
+} from '@dnd-kit/sortable';
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -21,6 +37,12 @@ const Admin = () => {
   const updateCategory = useUpdateMenuCategory();
   const { toast } = useToast();
   const [editingItem, setEditingItem] = useState<MenuItem | null>(null);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -78,13 +100,13 @@ const Admin = () => {
     }
   };
 
-  const moveItem = async (items: MenuItem[], index: number, direction: -1 | 1) => {
-    const target = index + direction;
-    if (target < 0 || target >= items.length) return;
-    // Reorder array
-    const reordered = [...items];
-    [reordered[index], reordered[target]] = [reordered[target], reordered[index]];
-    // Normalize sort_order for the whole category so ties don't break ordering
+  const handleDragEnd = async (items: MenuItem[], event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    const oldIndex = items.findIndex((i) => i.id === active.id);
+    const newIndex = items.findIndex((i) => i.id === over.id);
+    if (oldIndex === -1 || newIndex === -1) return;
+    const reordered = arrayMove(items, oldIndex, newIndex);
     try {
       await Promise.all(
         reordered.map((it, i) =>
@@ -114,13 +136,10 @@ const Admin = () => {
     );
   }
 
-  if (!user || !isStaff) {
-    return null;
-  }
+  if (!user || !isStaff) return null;
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <header className="sticky top-0 z-50 bg-card border-b border-border p-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div>
@@ -134,7 +153,6 @@ const Admin = () => {
         </div>
       </header>
 
-      {/* Content */}
       <main className="max-w-4xl mx-auto p-4 space-y-6">
         <Card>
           <CardHeader>
@@ -144,8 +162,9 @@ const Admin = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground mb-4">
-              Usa gli switch per nascondere/mostrare piatti. Clicca sulla matita per modificare dettagli.
+            <p className="text-sm text-muted-foreground">
+              Usa gli switch per nascondere/mostrare piatti. Clicca sulla matita per modificare i dettagli.
+              Tieni premuto sull'icona <span className="font-semibold">⋮⋮</span> a sinistra di un piatto e trascinalo per cambiarne l'ordine.
             </p>
           </CardContent>
         </Card>
@@ -176,89 +195,32 @@ const Admin = () => {
               </div>
             </CardHeader>
             <CardContent className="space-y-2">
-              {category.items.map((item, idx) => (
-                <div
-                  key={item.id}
-                  className={`flex items-center justify-between p-3 rounded-lg border ${
-                    !item.is_available ? 'bg-muted/50 opacity-60' : 'bg-background'
-                  }`}
+              <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={(e) => handleDragEnd(category.items, e)}
+              >
+                <SortableContext
+                  items={category.items.map((i) => i.id)}
+                  strategy={verticalListSortingStrategy}
                 >
-                  <div className="flex flex-col gap-1 mr-2">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-6 w-6"
-                      disabled={idx === 0 || updateItem.isPending}
-                      onClick={() => moveItem(category.items, idx, -1)}
-                      aria-label="Sposta in alto"
-                    >
-                      <ArrowUp className="w-4 h-4" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-6 w-6"
-                      disabled={idx === category.items.length - 1 || updateItem.isPending}
-                      onClick={() => moveItem(category.items, idx, 1)}
-                      aria-label="Sposta in basso"
-                    >
-                      <ArrowDown className="w-4 h-4" />
-                    </Button>
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium">{item.name}</span>
-                      {item.tag && (
-                        <Badge variant="outline" className="text-xs">
-                          {item.tag}
-                        </Badge>
-                      )}
-                      {!item.is_available && (
-                        <Badge variant="destructive" className="text-xs">
-                          Non disponibile
-                        </Badge>
-                      )}
-                    </div>
-                    <p className="text-sm text-muted-foreground line-clamp-1">
-                      {item.description}
-                    </p>
-                    <span className="text-sm font-semibold text-primary">
-                      €{Number(item.price).toFixed(2)}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 ml-4">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => setEditingItem(item)}
-                    >
-                      <Pencil className="w-4 h-4" />
-                    </Button>
-                    <div className="flex items-center gap-2">
-                      {item.is_available ? (
-                        <Eye className="w-4 h-4 text-muted-foreground" />
-                      ) : (
-                        <EyeOff className="w-4 h-4 text-muted-foreground" />
-                      )}
-                      <Switch
-                        checked={item.is_available}
-                        onCheckedChange={() => toggleItemAvailability(item)}
-                      />
-                    </div>
-                  </div>
-                </div>
-              ))}
+                  {category.items.map((item) => (
+                    <SortableMenuItem
+                      key={item.id}
+                      item={item}
+                      onEdit={setEditingItem}
+                      onToggleAvailability={toggleItemAvailability}
+                    />
+                  ))}
+                </SortableContext>
+              </DndContext>
             </CardContent>
           </Card>
         ))}
       </main>
 
-      {/* Item Editor Dialog */}
       {editingItem && (
-        <AdminItemEditor
-          item={editingItem}
-          onClose={() => setEditingItem(null)}
-        />
+        <AdminItemEditor item={editingItem} onClose={() => setEditingItem(null)} />
       )}
     </div>
   );
