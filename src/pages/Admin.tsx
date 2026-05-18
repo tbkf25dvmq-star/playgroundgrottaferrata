@@ -81,16 +81,18 @@ const Admin = () => {
   const moveItem = async (items: MenuItem[], index: number, direction: -1 | 1) => {
     const target = index + direction;
     if (target < 0 || target >= items.length) return;
-    const a = items[index];
-    const b = items[target];
-    // Use distinct sort_order values even if current ones collide (e.g. all 0)
-    const aNew = a.sort_order !== b.sort_order ? b.sort_order : target;
-    const bNew = a.sort_order !== b.sort_order ? a.sort_order : index;
+    // Reorder array
+    const reordered = [...items];
+    [reordered[index], reordered[target]] = [reordered[target], reordered[index]];
+    // Normalize sort_order for the whole category so ties don't break ordering
     try {
-      await Promise.all([
-        updateItem.mutateAsync({ id: a.id, updates: { sort_order: aNew } }),
-        updateItem.mutateAsync({ id: b.id, updates: { sort_order: bNew } }),
-      ]);
+      await Promise.all(
+        reordered.map((it, i) =>
+          it.sort_order === i
+            ? Promise.resolve(null)
+            : updateItem.mutateAsync({ id: it.id, updates: { sort_order: i } })
+        )
+      );
     } catch {
       toast({
         title: 'Errore',
