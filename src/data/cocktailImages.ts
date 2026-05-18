@@ -116,6 +116,18 @@ export const cocktailImages: Record<string, string> = {
   'Margarita': margarita,
   'Margarita Fragola': margaritaFragola,
   'Zombie Punch': zombiePunch,
+
+  // Spritz
+  'Spritz Aperol': spritz,
+  'Spritz Campari': spritzCampari,
+  'Spritz Limone': spritzLimone,
+  'Spritz Pompelmo': spritzPompelmo,
+  'Spritz Riviera al Cedro': spritzRivieraCedro,
+  'Spritz P31': spritzP31,
+  'Spritz Summer': summerSpritz,
+  'Spritz Mule': spritzMule,
+  'Spritz Monitor': spritzMonitor,
+  'Spritz on the Beach': spritzOnTheBeach,
 };
 
 export const getCocktailImage = (name: string): string | undefined => {
