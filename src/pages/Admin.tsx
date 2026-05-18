@@ -83,10 +83,13 @@ const Admin = () => {
     if (target < 0 || target >= items.length) return;
     const a = items[index];
     const b = items[target];
+    // Use distinct sort_order values even if current ones collide (e.g. all 0)
+    const aNew = a.sort_order !== b.sort_order ? b.sort_order : target;
+    const bNew = a.sort_order !== b.sort_order ? a.sort_order : index;
     try {
       await Promise.all([
-        updateItem.mutateAsync({ id: a.id, updates: { sort_order: b.sort_order } }),
-        updateItem.mutateAsync({ id: b.id, updates: { sort_order: a.sort_order } }),
+        updateItem.mutateAsync({ id: a.id, updates: { sort_order: aNew } }),
+        updateItem.mutateAsync({ id: b.id, updates: { sort_order: bNew } }),
       ]);
     } catch {
       toast({
