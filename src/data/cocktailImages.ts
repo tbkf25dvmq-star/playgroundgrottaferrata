@@ -51,6 +51,14 @@ import margarita from '@/assets/cocktails/margarita.png';
 import margaritaFragola from '@/assets/cocktails/margarita-fragola.png';
 import zombiePunch from '@/assets/cocktails/zombie-punch.png';
 
+// Spritz category
+import spritzCampari from '@/assets/cocktails/spritz-campari.png';
+import spritzLimone from '@/assets/cocktails/spritz-limone.png';
+import spritzPompelmo from '@/assets/cocktails/spritz-pompelmo.png';
+import spritzRivieraCedro from '@/assets/cocktails/spritz-riviera-cedro.png';
+import spritzP31 from '@/assets/cocktails/spritz-p31.png';
+import spritzMonitor from '@/assets/cocktails/spritz-monitor.png';
+
 // Map cocktail names to their images
 export const cocktailImages: Record<string, string> = {
   // Analcolici
@@ -108,6 +116,15 @@ export const cocktailImages: Record<string, string> = {
   'Margarita': margarita,
   'Margarita Fragola': margaritaFragola,
   'Zombie Punch': zombiePunch,
+
+  // Spritz
+  'Spritz Aperol': spritz,
+  'Spritz Campari': spritzCampari,
+  'Spritz Limone': spritzLimone,
+  'Spritz Pompelmo': spritzPompelmo,
+  'Spritz Riviera al Cedro': spritzRivieraCedro,
+  'Spritz P31': spritzP31,
+  'Spritz Monitor': spritzMonitor,
 };
 
 export const getCocktailImage = (name: string): string | undefined => {
