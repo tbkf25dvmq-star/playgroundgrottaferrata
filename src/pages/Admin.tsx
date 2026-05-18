@@ -176,13 +176,35 @@ const Admin = () => {
               </div>
             </CardHeader>
             <CardContent className="space-y-2">
-              {category.items.map((item) => (
+              {category.items.map((item, idx) => (
                 <div
                   key={item.id}
                   className={`flex items-center justify-between p-3 rounded-lg border ${
                     !item.is_available ? 'bg-muted/50 opacity-60' : 'bg-background'
                   }`}
                 >
+                  <div className="flex flex-col gap-1 mr-2">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-6 w-6"
+                      disabled={idx === 0 || updateItem.isPending}
+                      onClick={() => moveItem(category.items, idx, -1)}
+                      aria-label="Sposta in alto"
+                    >
+                      <ArrowUp className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-6 w-6"
+                      disabled={idx === category.items.length - 1 || updateItem.isPending}
+                      onClick={() => moveItem(category.items, idx, 1)}
+                      aria-label="Sposta in basso"
+                    >
+                      <ArrowDown className="w-4 h-4" />
+                    </Button>
+                  </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
                       <span className="font-medium">{item.name}</span>
