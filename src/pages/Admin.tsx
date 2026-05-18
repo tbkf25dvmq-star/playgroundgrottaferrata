@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
-import { LogOut, Eye, EyeOff, Pencil } from 'lucide-react';
+import { LogOut, Eye, EyeOff, Pencil, ArrowUp, ArrowDown } from 'lucide-react';
 import AdminItemEditor from '@/components/AdminItemEditor';
 import { useState } from 'react';
 import type { MenuItem } from '@/hooks/useMenu';
