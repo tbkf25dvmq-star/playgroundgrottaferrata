@@ -14,7 +14,7 @@ import { getCocktailImage } from '@/data/cocktailImages';
 import { getBeerImage } from '@/data/beerImages';
 import { getGinImage } from '@/data/ginImages';
 
-const DRINK_CATEGORIES = ['Analcolici', 'Aperitivo Italiano', 'Contemporary', 'Tropical', 'Birre Artigianali', 'Gin Corner'];
+const DRINK_CATEGORIES = ['Analcolici', 'Aperitivo Italiano', 'Spritz', 'Contemporary', 'Tropical', 'Birre Artigianali', 'Gin Corner'];
 
 const Drinks = () => {
   const navigate = useNavigate();
