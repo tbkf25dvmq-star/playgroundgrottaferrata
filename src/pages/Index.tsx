@@ -80,7 +80,15 @@ const Index = () => {
   }
 
   // Filter out drink categories from main menu (they go to /drinks page)
-  const foodCategories = menu.filter(cat => !DRINK_CATEGORIES.includes(cat.name));
+  // Time-based visibility: 12:00-17:00 mostra Play Lunch, fuori da quell'orario mostra Play Dinner
+  const currentHour = new Date().getHours();
+  const isLunchTime = currentHour >= 12 && currentHour < 17;
+  const foodCategories = menu.filter(cat => {
+    if (DRINK_CATEGORIES.includes(cat.name)) return false;
+    if (cat.name === 'Play Lunch') return isLunchTime;
+    if (cat.name === 'Play Dinner') return !isLunchTime;
+    return true;
+  });
 
   // Convert menu data to format expected by CategoryTabs
   const categories = foodCategories.map(cat => ({
