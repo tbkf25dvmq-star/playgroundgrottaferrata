@@ -164,7 +164,7 @@ const Admin = () => {
           <CardContent>
             <p className="text-sm text-muted-foreground">
               Usa gli switch per nascondere/mostrare piatti. Clicca sulla matita per modificare i dettagli.
-              Tieni premuto sull'icona <span className="font-semibold">⋮⋮</span> a sinistra di un piatto e trascinalo per cambiarne l'ordine.
+                Tieni premuto il pulsante <span className="font-semibold">Sposta</span> a sinistra di un piatto e trascinalo dove preferisci.
             </p>
           </CardContent>
         </Card>
