@@ -27,18 +27,20 @@ const SortableMenuItem = ({ item, onEdit, onToggleAvailability }: Props) => {
     <div
       ref={setNodeRef}
       style={style}
-      className={`flex items-center justify-between p-3 rounded-lg border ${
+      className={`flex items-center justify-between gap-3 p-3 rounded-lg border ${
         !item.is_available ? 'bg-muted/50 opacity-60' : 'bg-background'
-      }`}
+      } ${isDragging ? 'border-primary bg-accent/40 shadow-sm' : ''}`}
     >
       <button
         type="button"
-        className="touch-none cursor-grab active:cursor-grabbing p-2 -ml-2 mr-1 text-muted-foreground hover:text-foreground"
-        aria-label="Trascina per riordinare"
+        className="touch-none cursor-grab active:cursor-grabbing flex shrink-0 items-center gap-2 rounded-md border border-border bg-card px-3 py-2 text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-accent"
+        aria-label="Tieni premuto e trascina per riordinare"
+        title="Tieni premuto e trascina per riordinare"
         {...attributes}
         {...listeners}
       >
         <GripVertical className="w-5 h-5" />
+        <span className="whitespace-nowrap">Sposta</span>
       </button>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 flex-wrap">
