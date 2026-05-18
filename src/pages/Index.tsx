@@ -9,7 +9,7 @@ import MenuFooter from '@/components/MenuFooter';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Wine, Beer } from 'lucide-react';
 
-const DRINK_CATEGORIES = ['Analcolici', 'Aperitivo Italiano', 'Contemporary', 'Tropical', 'Birre Artigianali'];
+const DRINK_CATEGORIES = ['Analcolici', 'Aperitivo Italiano', 'Spritz', 'Contemporary', 'Tropical', 'Birre Artigianali', 'Gin Corner'];
 
 const Index = () => {
   const navigate = useNavigate();
