@@ -58,6 +58,9 @@ import spritzPompelmo from '@/assets/cocktails/spritz-pompelmo.png';
 import spritzRivieraCedro from '@/assets/cocktails/spritz-riviera-cedro.png';
 import spritzP31 from '@/assets/cocktails/spritz-p31.png';
 import spritzMonitor from '@/assets/cocktails/spritz-monitor.png';
+import campariColada from '@/assets/cocktails/campari-colada.png';
+import paloma from '@/assets/cocktails/paloma.png';
+import tomCollins from '@/assets/cocktails/tom-collins.png';
 
 // Map cocktail names to their images
 export const cocktailImages: Record<string, string> = {
