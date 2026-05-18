@@ -78,6 +78,25 @@ const Admin = () => {
     }
   };
 
+  const moveItem = async (items: MenuItem[], index: number, direction: -1 | 1) => {
+    const target = index + direction;
+    if (target < 0 || target >= items.length) return;
+    const a = items[index];
+    const b = items[target];
+    try {
+      await Promise.all([
+        updateItem.mutateAsync({ id: a.id, updates: { sort_order: b.sort_order } }),
+        updateItem.mutateAsync({ id: b.id, updates: { sort_order: a.sort_order } }),
+      ]);
+    } catch {
+      toast({
+        title: 'Errore',
+        description: 'Non è stato possibile riordinare il piatto',
+        variant: 'destructive',
+      });
+    }
+  };
+
   if (authLoading || menuLoading) {
     return (
       <div className="min-h-screen bg-background p-4">
