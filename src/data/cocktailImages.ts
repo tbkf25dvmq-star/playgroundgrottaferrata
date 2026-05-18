@@ -105,6 +105,9 @@ export const cocktailImages: Record<string, string> = {
   'Invisibile': invisibile,
   'Invisibile Fragola': invisibileFragola,
   'Tequila Sunrise': tequilaSunrise,
+  'Campari Colada': campariColada,
+  'Paloma': paloma,
+  'Tom Collins': tomCollins,
 
   // Tropical
   'Mojito Passion': mojitoPassion,
