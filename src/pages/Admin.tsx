@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
-import { LogOut, Eye, EyeOff, Pencil } from 'lucide-react';
+import { LogOut, Eye, EyeOff, Pencil, ArrowUp, ArrowDown } from 'lucide-react';
 import AdminItemEditor from '@/components/AdminItemEditor';
 import { useState } from 'react';
 import type { MenuItem } from '@/hooks/useMenu';
@@ -73,6 +73,30 @@ const Admin = () => {
       toast({
         title: 'Errore',
         description: 'Non è stato possibile aggiornare la categoria',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const moveItem = async (items: MenuItem[], index: number, direction: -1 | 1) => {
+    const target = index + direction;
+    if (target < 0 || target >= items.length) return;
+    // Reorder array
+    const reordered = [...items];
+    [reordered[index], reordered[target]] = [reordered[target], reordered[index]];
+    // Normalize sort_order for the whole category so ties don't break ordering
+    try {
+      await Promise.all(
+        reordered.map((it, i) =>
+          it.sort_order === i
+            ? Promise.resolve(null)
+            : updateItem.mutateAsync({ id: it.id, updates: { sort_order: i } })
+        )
+      );
+    } catch {
+      toast({
+        title: 'Errore',
+        description: 'Non è stato possibile riordinare il piatto',
         variant: 'destructive',
       });
     }
@@ -152,13 +176,35 @@ const Admin = () => {
               </div>
             </CardHeader>
             <CardContent className="space-y-2">
-              {category.items.map((item) => (
+              {category.items.map((item, idx) => (
                 <div
                   key={item.id}
                   className={`flex items-center justify-between p-3 rounded-lg border ${
                     !item.is_available ? 'bg-muted/50 opacity-60' : 'bg-background'
                   }`}
                 >
+                  <div className="flex flex-col gap-1 mr-2">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-6 w-6"
+                      disabled={idx === 0 || updateItem.isPending}
+                      onClick={() => moveItem(category.items, idx, -1)}
+                      aria-label="Sposta in alto"
+                    >
+                      <ArrowUp className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-6 w-6"
+                      disabled={idx === category.items.length - 1 || updateItem.isPending}
+                      onClick={() => moveItem(category.items, idx, 1)}
+                      aria-label="Sposta in basso"
+                    >
+                      <ArrowDown className="w-4 h-4" />
+                    </Button>
+                  </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
                       <span className="font-medium">{item.name}</span>
