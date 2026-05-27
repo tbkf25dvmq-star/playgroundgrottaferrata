@@ -10,6 +10,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 import { LogOut, EyeOff } from 'lucide-react';
 import AdminItemEditor from '@/components/AdminItemEditor';
+import AdminAddItem from '@/components/AdminAddItem';
 import SortableMenuItem from '@/components/SortableMenuItem';
 import type { MenuItem } from '@/hooks/useMenu';
 import {
