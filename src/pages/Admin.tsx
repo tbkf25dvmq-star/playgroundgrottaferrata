@@ -10,6 +10,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 import { LogOut, EyeOff } from 'lucide-react';
 import AdminItemEditor from '@/components/AdminItemEditor';
+import AdminAddItem from '@/components/AdminAddItem';
 import SortableMenuItem from '@/components/SortableMenuItem';
 import type { MenuItem } from '@/hooks/useMenu';
 import {
@@ -161,11 +162,12 @@ const Admin = () => {
               Gestione Menu
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-4">
             <p className="text-sm text-muted-foreground">
               Usa gli switch per nascondere/mostrare piatti. Clicca sulla matita per modificare i dettagli.
                 Tieni premuto il pulsante <span className="font-semibold">Sposta</span> a sinistra di un piatto e trascinalo dove preferisci.
             </p>
+            <AdminAddItem />
           </CardContent>
         </Card>
 
