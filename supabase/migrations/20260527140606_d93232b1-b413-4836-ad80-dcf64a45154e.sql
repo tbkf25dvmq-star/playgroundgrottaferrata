@@ -1,0 +1,2 @@
+DROP POLICY IF EXISTS "Admin can insert items" ON public.menu_items;
+CREATE POLICY "Staff can insert items" ON public.menu_items FOR INSERT TO authenticated WITH CHECK (has_role(auth.uid(), 'staff'::app_role) OR has_role(auth.uid(), 'admin'::app_role));
