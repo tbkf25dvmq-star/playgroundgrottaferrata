@@ -90,8 +90,26 @@ const Index = () => {
     return true;
   });
 
+  // Custom category order for the header tabs
+  const CATEGORY_ORDER = [
+    'Play Dinner',
+    'Play Lunch',
+    'PlayAperitivo',
+    'Fritti',
+    'Pizzeria',
+  ];
+
+  const sortedFoodCategories = [...foodCategories].sort((a, b) => {
+    const indexA = CATEGORY_ORDER.indexOf(a.name);
+    const indexB = CATEGORY_ORDER.indexOf(b.name);
+    if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+    if (indexA !== -1) return -1;
+    if (indexB !== -1) return 1;
+    return 0;
+  });
+
   // Convert menu data to format expected by CategoryTabs
-  const categories = foodCategories.map(cat => ({
+  const categories = sortedFoodCategories.map(cat => ({
     id: cat.id,
     name: cat.name,
     icon: cat.icon,
